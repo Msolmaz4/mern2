@@ -15,6 +15,13 @@ const allProducts = async(req,res)=>{
     })
 
 }
+
+const adminProducts = async(req,res,next)=>{
+    const products = await Product.find()
+    res.status(200).json({
+        products
+    })
+}
 const detailProducts = async(req,res)=>{
     const product = await Product.findById(req.params.id)
 
@@ -24,8 +31,8 @@ const detailProducts = async(req,res)=>{
 
 }
 //admin
-const createProducts = async(req,res)=>{
-    const images = []
+const createProducts = async(req,res,next)=>{
+     let images = []
     if(typeof req.body.image === 'string'){
         images.push(req.body.images)
     }else{
@@ -49,22 +56,74 @@ const createProducts = async(req,res)=>{
         product
     })
 }
-const deleteProducts = async(req,res)=>{
+const deleteProducts = async(req,res,next)=>{
     const product = await Product.findById(req.params.id)
-    product.remove()
+
+   for(let i =0 ; i<product.images.length; i++){
+    await  cloudinary.uploader.destroy(product.images[i].public_id)
+   }
+
+    await  product.remove()
     res.status(200).json({
     messagr:'urun deleter'
     })
 }
-const updateProducts = async(req,res)=>{
+const updateProducts = async(req,res,next)=>{
     const product = await Product.findById(req.params.id)
- product = await Product.findByIdAndUpdate(req.paramas.id,req.body,{new:true})
+
+    let images = []
+    if(typeof req.body.image === 'string'){
+        images.push(req.body.images)
+    }else{
+        images = req.body.images
+    }
+    //disardan ektra resim gleirse oncklierin sileriy
+    if(images !== undefined){
+        for(let i =0 ; i<product.images.length; i++){
+            await  cloudinary.uploader.destroy(product.images[i].public_id)
+           }
+    }
+    
+    let allImage= []
+    for(let i = 0; i<images.length ; i++){
+        const result = await cloudinary.uploader.upload(images[i],{
+            folder:'products'
+        })
+        allImage.push({
+            public_id:result.public_id,
+            url:result.secure_url
+        })
+    }
+     req.body.images = allImage
+
+    product = await Product.findByIdAndUpdate(req.paramas.id,req.body,{new:true,runValidators:true})
     res.status(200).json({
     messagr:'urun deleter'
+    })
+}
+const createReview = async()=>{
+    const {productId,comment,rating} = req.body
+
+    const review = {
+        user:req.user_id,
+        name:req.user_id,
+        comment,
+        rating:Number(rating)
+    }
+    const product = await Product.findById(productId)
+    product.reviews.push(review)
+    let avg = 0
+    product.reviews.forEach(rev=>{
+        avg+=rev.rating
+    })
+    product.rating = avg/product.reviews.length
+    await product.save({validateBeforeSave:false})
+
+    res.status(200).json({
+        message:'kommantare hinyufugen'
     })
 }
 
 
 
-
-module.exports = {allProducts , detailProducts ,createProducts ,deleteProducts ,updateProducts }
+module.exports = {allProducts , detailProducts ,createProducts ,deleteProducts ,updateProducts,createReview ,adminProducts}
