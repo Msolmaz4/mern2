@@ -25,8 +25,11 @@ class ProductFilter {
         return this;
 
     }
-    pagination(){
-
+    pagination(resultPerPage){
+             const activePage = this.queryStr.page || 1
+             const skip = resultPerPage*(activePage-1)
+             this.query = this.query.limit(resultPerPage).skip(skip)
+             return this;
     }
 }
 

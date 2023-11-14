@@ -5,7 +5,8 @@ const ProductFilter = require('../utils/productFilter.js')
 
 const allProducts = async(req,res)=>{
     //burda search unutma yokss acaklismaz didgerleride 
-    const productFilter = new ProductFilter(Product.find(),req.query).search().filter()
+    const resultPerPage = 10
+    const productFilter = new ProductFilter(Product.find(),req.query).search().filter().pagination(resultPerPage)
     const products = await productFilter.query
 
     res.status(200).json({
