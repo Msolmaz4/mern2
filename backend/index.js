@@ -22,7 +22,9 @@ cloudinary.config({
 
 
 const product = require('./routes/products.js')
+const user = require('./routes/user.js')
 app.use('/',product)
+app.use('/',user)
 
 
 app.get('/products',(req,res)=>{

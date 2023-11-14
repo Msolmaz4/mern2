@@ -17,7 +17,7 @@ const register = async(req,res)=>{
 
     const cookieOptions = {
         httpOnly:true,
-        expires:new Date(Date.now( + 5 *24*60*60*1000))
+        expires:new Date(Date.now() + 5 *24*60*60*1000)
     }
     res.status(201).cookie('token',token,cookieOptions).json({
         newUser,token
@@ -40,14 +40,20 @@ const login = async(req,res)=>{
 
     const cookieOptions = {
         httpOnly:true,
-        expires:new Date(Date.now( + 5 *24*60*60*1000))
+        expires:new Date(Date.now())
     }
     res.status(201).cookie('token',token,cookieOptions).json({
         user,token
     })
 }
 const logout = async(req,res)=>{
-
+    const cookieOptions = {
+        httpOnly:true,
+        expires:new Date(Date.now( + 5 *24*60*60*1000))
+    }
+    res.status(200).cookie('token',null,cookieOptions).json({
+        message:'raus okey'
+    })
 }
 const forgotPassword = async(req,res)=>{
 
