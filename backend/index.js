@@ -11,7 +11,14 @@ app.use(bodyParser.json({limit:'30mb',extended:true}))
 app.use(bodyParser.urlencoded({limit:'30mb',extended:true}))
 app.use(cookieParser())
 db()
-
+//import {v2 as cloudinary} from 'cloudinary';
+const cloudinary =require('cloudinary').v2
+          
+cloudinary.config({ 
+  cloud_name: process.env.CLOUD_NAME, 
+  api_key: process.env.API_KEY, 
+  api_secret:process.env.API_SECRET
+});
 
 
 const product = require('./routes/products.js')

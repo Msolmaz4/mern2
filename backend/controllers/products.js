@@ -1,5 +1,6 @@
 const Product = require('../models/product.js')
 const ProductFilter = require('../utils/productFilter.js')
+const cloudinary =require('cloudinary').v2
 
 
 
@@ -24,6 +25,24 @@ const detailProducts = async(req,res)=>{
 }
 //admin
 const createProducts = async(req,res)=>{
+    const images = []
+    if(typeof req.body.image === 'string'){
+        images.push(req.body.images)
+    }else{
+        images = req.body.images
+    }
+    
+    let allImage= []
+    for(let i = 0; i<images.length ; i++){
+        const result = await cloudinary.uploader.upload(images[i],{
+            folder:'products'
+        })
+        allImage.push({
+            public_id:result.public_id,
+            url:result.secure_url
+        })
+    }
+     req.body.images = allImage
     const product = await Product.create(req.body)
 
     res.status(201).json({
