@@ -1,8 +1,16 @@
 const User = require('../models/user.js')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const cloudinary =require('cloudinary').v2
 
 const register = async(req,res)=>{
+    
+    const avatar = await cloudinary.uploader.upload(req.body.avatar,{
+        folder:'avatar',
+        width:130,
+        crop:'scale'
+    })
+
     const {name,email,password} = req.body 
     const user= await User.findOne({email})
     if(user) {
@@ -12,7 +20,15 @@ const register = async(req,res)=>{
     if(password.length < 6){
         return res.status(500).json({message:'password ist kurty'})
     }
-    const newUser = await User.create({name,email,password:passwordHash})
+    const newUser = await User.create({
+        name,
+        email,
+        password:passwordHash,
+     avatar:{
+        public_id:avatar.public_id,
+        url:avatar.secure_url
+     }
+    })
     const token = await jwt.sign({id:newUser._id},process.env.SECRET,{expiresIn:'1h'});
 
     const cookieOptions = {
