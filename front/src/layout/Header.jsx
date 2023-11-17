@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { HiMiniArchiveBoxArrowDown } from "react-icons/hi2";
 
 
 const Header = () => {
+
+  const [openMenu ,setOpenMenu] = useState(false)
   const menuItems = [
     {
       name: "Profil",
@@ -31,13 +34,14 @@ const Header = () => {
           <img className='w-8 h-8 rounded-full'
             src="https://banner2.cleanpng.com/20180816/syp/kisspng-computer-icons-favicon-user-iconfinder-personal-we-yue-jia-fresh-my-user-icon-svg-png-icon-free-downl-5b7590572d9999.5378872315344313191868.jpg"
             alt=""
-           
+           onClick={()=>setOpenMenu(!openMenu)}
           />
-          <div className="absolute right-0 mt-3 w-[200] bg-white shadow-gray-300">
+          { openMenu && <div className="absolute right-0 mt-3 w-[200] bg-white shadow-gray-300">
             {menuItems?.map((item, index) => (
               <div key={index} className="px-2 py-1 hover:bg-gray-300">{item.name}</div>
             ))}
-          </div>
+          </div>}
+          
         </div>
         <div className="relative">
         <HiMiniArchiveBoxArrowDown size={28} />

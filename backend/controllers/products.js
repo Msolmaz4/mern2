@@ -51,7 +51,7 @@ const createProducts = async(req,res,next)=>{
     }
      req.body.images = allImage
      req.body.user = req.user.id
-    const product = await Product.create(req.body)
+     const product = await Product.create(req.body)
 
     res.status(201).json({
         product
