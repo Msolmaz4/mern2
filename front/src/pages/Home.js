@@ -18,6 +18,9 @@ const Home = () => {
   console.log(products,loading)
   return (
     <div> 
+    <div >
+      <img className='w-full' src="/ana.jpeg" alt="" />
+    </div>
     {
       loading ? 'loading....' : <div>
       {
