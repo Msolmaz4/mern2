@@ -1,10 +1,16 @@
 import { useState } from "react";
 import { HiMiniArchiveBoxArrowDown } from "react-icons/hi2";
+import { useNavigate } from "react-router";
+import { useDispatch} from 'react-redux'
+import { getKeyword } from "../redux/generalSlice";
 
 
 const Header = () => {
 
   const [openMenu ,setOpenMenu] = useState(false)
+  const [keyword ,setKeyword] = useState('')
+  const navigat = useNavigate()
+  const distpach = useDispatch()
   const menuItems = [
     {
       name: "Profil",
@@ -20,14 +26,21 @@ const Header = () => {
     },
   ];
 
+  const keywordFunc = ()=>{
+    distpach(getKeyword(keyword))
+    navigat('/products')
+     setKeyword('')
+
+  }
+
   return (
     <div className=" flex items-center justify-between h-16 px-2 bg-gray-300">
       <div className="flex">demee.</div>
       <div className="flex items-center gap-5">
       <div className="flex items-center">
 
-         <input type="text" placeholder="suchen" className="p-2 outline-none" />
-         <button className="p-2 ml-1 bg-white cursor-pointer">Such</button>
+         <input type="text" value={keyword} onChange={(e)=>setKeyword(e.target.value)} placeholder="suchen" className="p-2 outline-none" />
+         <button className="p-2 ml-1 bg-white cursor-pointer" onClick={keywordFunc}>Such</button>
       </div>
        
         <div className="relative">

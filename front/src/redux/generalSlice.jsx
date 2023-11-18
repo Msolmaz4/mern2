@@ -1,19 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
- keywords :''
+ keyword :''
 }
 
 
 export const generalSlice = createSlice({
-  name: 'product',
+  name: 'genera]',
   initialState,
-  reducers: {},
+  reducers: {
+    getKeyword : (state,action)=>{
+      state.keyword = action.payload
+    }
+  },
   
 
 })
 
 // Action creators are generated for each case reducer function
-export const { } = generalSlice.actions
+export const {getKeyword } = generalSlice.actions
 
 export default generalSlice.reducer
