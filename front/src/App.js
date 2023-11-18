@@ -7,6 +7,7 @@ import Header from './layout/Header'
 import Footer from './layout/Footer'
 import Deatail from './pages/Deatail';
 import Products from './pages/Products';
+import Auth from './pages/Auth';
 
 
 const App = () => {
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="/" element={<Home/>}/>
           <Route path='/products' element={<Products/>}/>
           <Route path="/product/:id" element={<Deatail/>}/>
+          <Route path="/auth" element={<Auth/>}/>
          </Routes>
     <Footer/>
     </Router>
