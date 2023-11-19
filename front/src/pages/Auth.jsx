@@ -19,6 +19,23 @@ const Auth = () => {
   const registerFun = () => {};
   const loginFun = () => {};
 
+  const handleChange= (e)=>{
+    if(e.target.name === 'avatar'){
+      const reader = new FileReader()
+      reader.onload = ()=>{
+        if(reader.readyState === 2){
+          setData(prev=>({...prev,avatar:reader.result}))
+          setPreview(reader.result)
+        }
+
+      }
+         reader.readAsDataURL(e.target.files[0])
+    }else{
+      setData(prev=>({...prev,[e.target.name]:e.target.value}))
+    }
+
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="w-1/3">

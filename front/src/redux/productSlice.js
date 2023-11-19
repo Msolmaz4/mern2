@@ -39,14 +39,14 @@ export const productSlice = createSlice({
     })
     builder.addCase(getProducts.fulfilled,(state,action)=>{
       state.loading= false
-      state.actio = action.payload
+      state.products = action.payload
     })
     builder.addCase(getProductDetail.pending,(state,action)=>{
       state.loading= true
     })
     builder.addCase(getProductDetail.fulfilled,(state,action)=>{
       state.loading= false
-      state.actio = action.payload
+      state.product = action.payload
     })
   },
 
