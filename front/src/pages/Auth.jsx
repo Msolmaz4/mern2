@@ -35,7 +35,7 @@ const Auth = () => {
     }
 
   }
-
+console.log(data,'data')
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="w-1/3">
@@ -62,7 +62,7 @@ const Auth = () => {
           type={"password"}
           name={"password"}
           id={""}
-          placeholder={"Name"}
+          placeholder={"assword"}
           value={data.password}
           onChange={handleChange}
         />
