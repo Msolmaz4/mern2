@@ -17,7 +17,7 @@ const cloudinary =require('cloudinary').v2
 cloudinary.config({ 
   cloud_name: 'dwlrb5pp7', 
   api_key: '926353552136662', 
-  api_secret: 'WdtgNvXnHSkci0l5oyfmeK9ZRmI' 
+  api_secret:process.env.API_SECRET
 });
 
 

@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import axios from 'axios'
 
 const initialState = {
 
@@ -11,18 +12,10 @@ export const register = createAsyncThunk(
   'register',
 
   async (data) => {
-    const requestOptions = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          // İhtiyaca göre diğer başlıkları ekleyebilirsiniz
-        },
-        body:JSON.stringify(data)
-     }
-    
-    const response = await fetch(`http://localhost:4000/register`,requestOptions)
+   
+    const response = await axios.post(`http://localhost:4000/register`,data)
 
-    return (await response.json()) 
+    return response
   }
 )
 
