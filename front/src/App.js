@@ -21,7 +21,7 @@ const App = () => {
     dispatch(profile())
   },[dispatch])
 
-console.log(user,isAuth,'appIserIasauth')
+
   return (
     <div>
       <Router>

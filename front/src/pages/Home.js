@@ -15,7 +15,7 @@ const Home = () => {
 
   },[dispatch])
 
-  console.log(products,loading)
+
   return (
     <div> 
     <div >

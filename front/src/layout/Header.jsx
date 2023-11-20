@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { HiMiniArchiveBoxArrowDown } from "react-icons/hi2";
 import { useNavigate } from "react-router";
-import { useDispatch} from 'react-redux'
+import { useDispatch, useSelector} from 'react-redux'
 import { getKeyword } from "../redux/generalSlice";
 
 
@@ -9,6 +9,7 @@ const Header = () => {
 
   const [openMenu ,setOpenMenu] = useState(false)
   const [keyword ,setKeyword] = useState('')
+  const {user,isAuth} = useSelector(state=>state.user)
   const navigat = useNavigate()
   const distpach = useDispatch()
   const menuItems = [
@@ -32,7 +33,7 @@ const Header = () => {
      setKeyword('')
 
   }
-
+ console.log(user.data?.user.avatar.url)
   return (
     <div className=" flex items-center justify-between h-16 px-2 bg-gray-300">
       <div className="flex">demee.</div>
@@ -45,7 +46,7 @@ const Header = () => {
        
         <div className="relative">
           <img className='w-8 h-8 rounded-full'
-            src="https://banner2.cleanpng.com/20180816/syp/kisspng-computer-icons-favicon-user-iconfinder-personal-we-yue-jia-fresh-my-user-icon-svg-png-icon-free-downl-5b7590572d9999.5378872315344313191868.jpg"
+            src= {user?.data?.user ? user.data?.user?.avatar.url:"https://banner2.cleanpng.com/20180816/syp/kisspng-computer-icons-favicon-user-iconfinder-personal-we-yue-jia-fresh-my-user-icon-svg-png-icon-free-downl-5b7590572d9999.5378872315344313191868.jpg"}
             alt=""
            onClick={()=>setOpenMenu(!openMenu)}
           />
