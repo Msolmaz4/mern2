@@ -6,14 +6,18 @@ const crypto= require('crypto')
 const nodemailer = require("nodemailer");
 
 const register = async(req,res)=>{
-    
+    try {
+        const {name,email,password} = req.body 
+     console.log(name,email,password)
+
     const avatar = await cloudinary.uploader.upload(req.body.avatar,{
         folder:'avatar',
         width:130,
         crop:'scale'
     })
 
-    const {name,email,password} = req.body 
+    
+   
     const user= await User.findOne({email})
     if(user) {
         return res.status(500).json({message:'die Emailhat schon'})
@@ -40,6 +44,11 @@ const register = async(req,res)=>{
     res.status(201).cookie('token',token,cookieOptions).json({
         newUser,token
     })
+    } catch (error) {
+        console.error('Hata:', error);
+      res.status(500).json({ message: 'Beklenmeyen bir hata oluştu' });
+    }
+    
 }
 const login = async(req,res)=>{
     const {email,password} = req.body

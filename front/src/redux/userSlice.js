@@ -17,7 +17,7 @@ export const register = createAsyncThunk(
           'Content-Type': 'application/json',
           // İhtiyaca göre diğer başlıkları ekleyebilirsiniz
         },
-        body: data
+        body:JSON.stringify(data)
      }
     
     const response = await fetch(`http://localhost:4000/register`,requestOptions)

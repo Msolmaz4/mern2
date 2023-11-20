@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { useDispatch } from "react-redux";
+import { register } from "../redux/userSlice";
 
 const Auth = () => {
   const [signUp, setSignUp] = useState(true);
@@ -16,7 +17,11 @@ const Auth = () => {
     "https://banner2.cleanpng.com/20180816/syp/kisspng-computer-icons-favicon-user-iconfinder-personal-we-yue-jia-fresh-my-user-icon-svg-png-icon-free-downl-5b7590572d9999.5378872315344313191868.jpg"
   );
 
-  const registerFun = () => {};
+  const registerFun = () => {
+    console.log(data,'register')
+    console.log('object')
+    dispatch(register(data))
+  };
   const loginFun = () => {};
 
   const handleChange= (e)=>{
