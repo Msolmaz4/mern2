@@ -11,19 +11,17 @@ import Auth from "./pages/Auth";
 import { useDispatch, useSelector } from "react-redux";
 import { profile } from "./redux/userSlice";
 import Profile from "./pages/Profile";
+import ProductRouter from "./components/ProductRouter";
 
 const App = () => {
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
 
+  useEffect(() => {
+    dispatch(profile());
+  }, [dispatch]);
 
-  const dispatch = useDispatch()
-  const {user} = useSelector(state=>state.user)
-
-
-  useEffect(()=>{
-    dispatch(profile())
-  },[dispatch])
-
-console.log(user)
+  console.log(user);
   return (
     <div>
       <Router>
@@ -31,7 +29,11 @@ console.log(user)
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
-          <Route path="/profile" element={<Profile />} />
+
+          <Route element={<ProductRouter />}>
+            <Route path="/profile" element={<Profile />} />
+          </Route>
+
           <Route path="/product/:id" element={<Deatail />} />
           <Route path="/auth" element={<Auth />} />
         </Routes>
