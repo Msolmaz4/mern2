@@ -15,7 +15,7 @@ const Header = () => {
   const menuItems = [
     {
       name: "Profil",
-      url: "/profil",
+      url: "/profile",
     },
     {
       name: "Admin",
@@ -33,7 +33,20 @@ const Header = () => {
      setKeyword('')
 
   }
- console.log(user.data?.user.avatar.url)
+ console.log(user?.data?.user.avatar.url)
+
+ const menuFun = (item)=>{
+  if(item.name === 'logout'){
+    console.log('logout')
+    localStorage.clear()
+    window.location='/'
+    
+  }
+  else{
+    window.location = item.url
+  }
+
+ }
   return (
     <div className=" flex items-center justify-between h-16 px-2 bg-gray-300">
       <div className="flex">demee.</div>
@@ -52,7 +65,7 @@ const Header = () => {
           />
           { openMenu && <div className="absolute right-0 mt-3 w-[200] bg-white shadow-gray-300">
             {menuItems?.map((item, index) => (
-              <div key={index} className="px-2 py-1 hover:bg-gray-300">{item.name}</div>
+              <div onClick={()=>menuFun(item)} key={index} className="px-2 py-1 hover:bg-gray-300">{item.name}</div>
             ))}
           </div>}
           

@@ -59,7 +59,7 @@ const Auth = () => {
   }
 useEffect(()=>{
  if(isAuth){
-  navi('/')
+
  }
 },[isAuth])
   return (

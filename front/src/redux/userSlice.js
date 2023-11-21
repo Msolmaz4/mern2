@@ -19,7 +19,7 @@ export const login = createAsyncThunk(
   'login',
   async (data) => {
     const response = await axios.post(`http://localhost:4000/login`,{email:data.email,password:data.password})
-    localStorage.setItem('token',response?.token)
+    localStorage.setItem('token',response?.data.token)
     return response
   }
 )
@@ -27,10 +27,11 @@ export const profile = createAsyncThunk(
   'profile',
   async () => {
     const token = localStorage.getItem('token')
-    const response = await axios.post(`http://localhost:4000/me` ,{
+     const response = await fetch(`http://localhost:4000/me` ,{
       headers:{authorization:`Bearer ${token}` }
     })
-    return response
+    
+    return( await response.json())
   }
 )
 
