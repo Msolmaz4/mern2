@@ -46,9 +46,9 @@ export const forgotPass = createAsyncThunk(
 )
 export const resetPass = createAsyncThunk(
   'reset',
-  async (params) => {
-    console.log(params,'resetSlice')
-    const response = await axios.post(`http://localhost:4000/reset/${params.token}`,{password:params.password})
+  async ({token,password}) => {
+   console.log(token,password)
+    const response = await axios.post(`http://localhost:4000/reset/${token}`,{password,token})
    
     return response
   }

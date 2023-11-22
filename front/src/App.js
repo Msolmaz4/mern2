@@ -23,7 +23,7 @@ const App = () => {
     dispatch(profile());
   }, [dispatch]);
 
-  console.log(user);
+ 
   return (
     <div>
       <Router>

@@ -103,7 +103,7 @@ const forgotPassword = async (req, res) => {
 
 
 
-
+    // https://www.youtube.com/watch?v=QDIOBsMBEI0 burdan bakarak yaptim
 
     const transporter = nodemailer.createTransport({
         service:'gmail',
@@ -121,10 +121,11 @@ const forgotPassword = async (req, res) => {
             name:'web Dizayun',
             address:'denemesolmaz24@gmail.com'
         },
-        to:['msolmaz83@gmail.com'],
+        to:email,
         subject:'send email',
         text:'Hello world',
-        html:'<h1>hello World</h1>'
+        html:`<h1> Şifrenizi sıfırlamak için aşağıdaki bağlantıyı kullanın: http://localhost:3000/reset/${token}</h1>`,
+        
      }
 
      const sendMail = async(transporter,mailOptions)=>{
@@ -137,6 +138,7 @@ const forgotPassword = async (req, res) => {
         }
      }
    sendMail(transporter,mailOptions)
+   res.status(400).json({message:'mail gitti '})
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Bir hata oluştu." })
@@ -146,7 +148,10 @@ const forgotPassword = async (req, res) => {
 
 
 
-const resetPassword = async (req, res) => {};
+const resetPassword = async (req, res) => {
+   const { token ,password} = req.body
+   console.log(token,password)
+};
 const userDetail = async (req, res, next) => {
   const user = await User.findById(req.user.id);
   res.status(200).json({

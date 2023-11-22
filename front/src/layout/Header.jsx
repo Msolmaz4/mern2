@@ -33,7 +33,7 @@ const Header = () => {
      setKeyword('')
 
   }
- console.log(user?.data?.user.avatar.url)
+
 
  const menuFun = (item)=>{
   if(item.name === 'logout'){
