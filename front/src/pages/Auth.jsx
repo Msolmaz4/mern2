@@ -104,11 +104,15 @@ useEffect(()=>{
           onClick={() => setSignUp(!signUp)}
         >
           {signUp ? "Giris" : "Kay ol"}{" "}
+          
         </div>
-        <Button
+        <div className="text-red-500 text-2xl cursor-pointer" onClick={()=>navi('/forgot')}>sifremi unuttum</div>
+        <Button 
           name={signUp ? "kayit Ol" : "Giris Yap"}
+          
           onClick={signUp ? registerFun : loginFun}
         />
+
       </div>
     </div>
   );

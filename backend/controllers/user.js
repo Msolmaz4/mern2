@@ -2,7 +2,7 @@ const User = require('../models/user.js')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const cloudinary =require('cloudinary').v2
-const crypto= require('crypto')
+
 const nodemailer = require("nodemailer");
 
 const register = async(req,res)=>{
@@ -84,72 +84,26 @@ const logout = async(req,res)=>{
 }
 const forgotPassword = async(req,res)=>{
     const user = await User.findOne({email:req.body.email})
+    console.log(req.body.email,'forgot')
     if(!user){
-        return res.status(404).json({message:'leider haben wir nicht dieseEmail gefunden'})
+        return await res.status(404).json({message:'leider haben wir nicht dieseEmail gefunden'})
+        
     }
-    const resetToken =  crypto.randomBytes(20).toString('hex')
-    user.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex')
-    user.resetPasswordExpire= Date.now() + 5*60*1000
-    await user.save({validateBeforeSave:false})
+   
+    
 
-    const passwordUrl = `${req.protocol}://${req.get('host')}/reset/${resetToken}`
-    const message = `password token:${passwordUrl}`
-    try {
-        const transporter = nodemailer.createTransport({
-            host: "smtp.forwardemail.net",
-            service:'gmail',
-            port: 465,
-            secure: true,
-            auth: {
-              // TODO: replace `user` and `pass` values from <https://forwardemail.net>
-              //https://nodemailer.com/about/ burdan aldim
-              user: 'REPLACE-WITH-YOUR-ALIAS@YOURDOMAIN.COM',
-              pass: 'REPLACE-WITH-YOUR-GENERATED-PASSWORD'
-            }
-          })
-          const mailData = {
-            from: '"Fred Foo 👻" <foo@example.com>', // sender address
-             to: req.body.email, // list of receivers
-              subject: "passoerd woiderholen", // Subject line
-                 text: message, // plain text body
-             
-          }
-          await transporter.sendMail(mailData)
-          res.status(200).json({
-            message:'email gucken'
-          })
-    } catch (error) {
-        user.resetPasswordToken=undefined
-        user.resetPasswordExpire= undefined
-        await user.save({validateBeforeSave:false})
-        res.status(401).json({message:error.message})
-    }
 
+
+  
 }
-const resetPassword = async(req,res)=>{
-    const resetPasswordToken =crypto.createHash('sha256').update(req.params.token).digest('hex')
-    const user = await User.findOne({
-        resetPasswordToken,
-        resetPasswordExpire:{$gt:Date.now()}
-    })
-    if(!user){
-        return res.status(400).json({
-            message:'leider token'
-        })
-    }
-    user.password = req.body.password
-    user.resetPasswordToken=undefined
-    user.resetPasswordExpire= undefined
-    await user.save()
-    const token = await jwt.sign({id:user._id},process.env.SECRET,{expiresIn:'1h'});
 
-    const cookieOptions = {
-        httpOnly:true,
-        expires:new Date(Date.now() + 5 *24*60*60*1000)
-    }
-    res.status(201).cookie('token',token,cookieOptions).json({
-        user,token
-    })
+
+
+
+   
+
+const resetPassword = async(req,res)=>{
+   
 }
 const userDetail = async(req,res,next)=>{
     const user = await User.findById(req.user.id)
@@ -162,3 +116,63 @@ const userDetail = async(req,res,next)=>{
 module.exports = {
     register,login,forgotPassword,resetPassword,logout,userDetail
 }
+
+// const forgotPassword = async (req, res) => {
+//     try {
+//       const { email } = req.body;
+//       const user = await User.findOne({ email });
+  
+//       if (!user) {
+//         return res.status(404).json({ message: 'Üzgünüz, bu e-posta bulunamadı.' });
+//       }
+  
+//       const token = jwt.sign({ userId: user._id }, process.env.SECRET, { expiresIn: '1h' });
+  
+//       // Token'ı içeren bir sıfırlama e-postası gönderme
+//       const mailOptions = {
+//         from: 'your-email@gmail.com',
+//         to: email,
+//         subject: 'Şifre Sıfırlama',
+//         text: `Şifrenizi sıfırlamak için aşağıdaki bağlantıyı kullanın: http://your-website.com/reset-password?token=${token}`,
+//       };
+  
+//       await transporter.sendMail(mailOptions);
+  
+//       res.status(200).json({ message: 'Şifre sıfırlama e-postası gönderildi.' });
+//     } catch (error) {
+//       console.error(error);
+//       res.status(500).json({ message: 'Bir hata oluştu.' });
+//     }
+//   };
+  
+//   const resetPassword = async (req, res) => {
+//     try {
+//       const { token, newPassword } = req.body;
+  
+//       const decoded = jwt.verify(token, process.env.SECRET);
+//       const user = await User.findById(decoded.userId);
+  
+//       if (!user) {
+//         return res.status(404).json({ message: 'Kullanıcı bulunamadı.' });
+//       }
+  
+//       const passwordHash = await bcrypt.hash(newPassword, 10);
+//       user.password = passwordHash;
+//       await user.save();
+  
+//       res.status(200).json({ message: 'Şifre başarıyla sıfırlandı.' });
+//     } catch (error) {
+//       console.error(error);
+//       res.status(401).json({ message: 'Geçersiz veya süresi dolmuş token.' });
+//     }
+//   };
+  
+//   module.exports = {
+//     register,
+//     login,
+//     forgotPassword,
+//     resetPassword,
+//     logout,
+//     userDetail,
+//   };
+  

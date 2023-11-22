@@ -34,6 +34,25 @@ export const profile = createAsyncThunk(
     return( await response.json())
   }
 )
+export const forgotPass = createAsyncThunk(
+ 
+  'forgot',
+  async (email) => {
+     console.log(email,'forgitredux')
+    const response = await axios.post(`http://localhost:4000/forgotPassword`,{email})
+   
+    return response
+  }
+)
+export const resetPass = createAsyncThunk(
+  'reset',
+  async (params) => {
+    console.log(params,'resetSlice')
+    const response = await axios.post(`http://localhost:4000/reset/${params.token}`,{password:params.password})
+   
+    return response
+  }
+)
 
 
 export const userSlice = createSlice({
@@ -68,6 +87,30 @@ export const userSlice = createSlice({
       state.user = action.payload
       state.isAuth =true
     })
+    //hataya fudtumu backend kismi icin consloda gouykiuor
+    builder.addCase(profile.rejected,(state,action)=>{
+      state.loading= false
+      state.isAuth = false
+      state.user ={}
+    })
+    builder.addCase(forgotPass.pending,(state,action)=>{
+      state.loading= true
+      
+    })
+    builder.addCase(forgotPass.fulfilled,(state,action)=>{
+      state.loading= false
+      
+    })
+    builder.addCase(resetPass.pending,(state,action)=>{
+      state.loading= true
+      
+    })
+    builder.addCase(resetPass.fulfilled,(state,action)=>{
+      state.loading= false
+      
+    })
+    
+
    
   },
 

@@ -12,6 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { profile } from "./redux/userSlice";
 import Profile from "./pages/Profile";
 import ProductRouter from "./components/ProductRouter";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -29,6 +31,9 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
+          <Route path="/forgot" element={<ForgotPassword />} />
+          <Route path="/reset/:token" element={<ResetPassword />} />
+
 
           <Route element={<ProductRouter />}>
             <Route path="/profile" element={<Profile />} />
