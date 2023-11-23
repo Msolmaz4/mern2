@@ -2,18 +2,31 @@ import React, { useState } from 'react'
 import Input from '../components/Input'
 import Button from '../components/Button'
 import { useDispatch } from 'react-redux'
-import { useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 import { resetPass } from '../redux/userSlice'
+
+
 
 const ResetPassword = () => {
     const [password,setPassword] = useState('')
     const dispatch = useDispatch()
-    const token = useParams()
-    
+    const {token} = useParams()
+    //console.log(tok.token,'resetToken')
+  const navi = useNavigate()
+  
+   
 
-  const resetFunc = ()=>{
-    dispatch(resetPass({token,password}))
-    console.log(token,'resetFunc')
+  const resetFunc = async()=>{
+    try {
+      //console.log(tok.token)
+    await dispatch(resetPass({token,password}))
+    // Şifre sıfırlama başarılı olduğunda ana sayfaya yönlendirme
+    navi('/')
+    } catch (error) {
+  
+    }
+    
+    
   }
 
   return (

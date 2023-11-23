@@ -18,7 +18,7 @@ const register = async (req, res) => {
 
     const user = await User.findOne({ email });
     if (user) {
-      return res.status(500).json({ message: "die Emailhat schon" });
+      return res.status(500).json({ message: "die Email hat schon" });
     }
     const passwordHash = await bcrypt.hash(password, 10);
     if (password.length < 6) {
@@ -149,8 +149,21 @@ const forgotPassword = async (req, res) => {
 
 
 const resetPassword = async (req, res) => {
+
    const { token ,password} = req.body
    console.log(token,password)
+   //burfa bitr cozduk
+   const decodedToken = jwt.verify(token, process.env.SECRET);
+   console.log(decodedToken,'decodetoken')
+   const userId = decodedToken.id;
+   console.log(userId,'userId')
+   const user = await User.findById(userId);
+   console.log(user,'enalrt')
+  
+   user.password = password;
+   await user.save();
+   res.status(200).json({ message: 'Password reset successful' });
+
 };
 const userDetail = async (req, res, next) => {
   const user = await User.findById(req.user.id);
