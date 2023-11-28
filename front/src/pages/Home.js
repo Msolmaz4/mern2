@@ -15,9 +15,9 @@ const Home = () => {
 
   },[dispatch])
 
-
+console.log(products,loading,'urunler')
   return (
-    <div> 
+    <div className='min-h-screen'> 
     <div >
       <img className='w-full' src="/ana.jpeg" alt="" />
     </div>

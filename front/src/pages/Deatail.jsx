@@ -5,6 +5,7 @@ import { getProductDetail } from "../redux/productSlice";
 import Slider from "react-slick";
 import { FaStar } from "react-icons/fa6";
 import Button from "../components/Button";
+import { addtoCart } from "../redux/cardSlice";
 
 const Deatail = () => {
   const { id } = useParams();
@@ -27,6 +28,10 @@ const Deatail = () => {
     slidesToScroll: 1,
   };
 const addBasket =()=>{
+  const data ={
+    
+  }
+  dispatch(addtoCart())
 
 }
 const decrem =()=>{

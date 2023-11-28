@@ -6,7 +6,7 @@ const authenticationMid = async(req,res,next)=>{
     try {
         // console.log(req.body);
         const token = req.headers.authorization.split(' ')[1];
-        // console.log(token)
+        console.log(token)
         
         if (!token) {
             return res.status(500).json({ message: 'Lütfen giriş yapınız' });

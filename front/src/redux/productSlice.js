@@ -10,13 +10,20 @@ export const getProducts = createAsyncThunk(
   'products',
  //burdaki iki paramaete alir buna dikkat et ikincisi glen cok olacsgo ivin bunu params evirdim
   async (params) => {
-    let link =`http://localhost:4000/products?keyword=${params.keyword || ''}&rating[gte]=${params.rating || 0}&price[gte]=${params.price.min || 0}&price[lte]=${params.price.max || 30000000}`
+    
+    // let link =`http://localhost:4000/products?keyword=${params.keyword || ''}&rating[gte]=${params.rating || 0}&price[gte]=${params.price.min || 0}&price[lte]=${params.price.max || 30000000}`
+    let link =`http://localhost:4000/products`
+
+    
     if(params.category){
       link =`http://localhost:4000/products?keyword=${params.keyword || ''}&rating[gte]=${params.rating || 0}&price[gte]=${params.price.min || 0}&price[lte]=${params.price.max || 30000000}&category=${params.category}`
+      const response = await fetch(link)
+      return  await response.json()
     }
     const response = await fetch(link)
+    console.log(response,'getAll')
 
-    return (await response.json()) 
+    return await response.json()
   }
 )
 export const getProductDetail = createAsyncThunk(
@@ -25,7 +32,7 @@ export const getProductDetail = createAsyncThunk(
   async (id) => {
     const response = await fetch(`http://localhost:4000/products/${id}`)
 
-    return (await response.json()) 
+    return await response.json()
   }
 )
 

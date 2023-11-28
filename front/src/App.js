@@ -14,6 +14,7 @@ import Profile from "./pages/Profile";
 import ProductRouter from "./components/ProductRouter";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import Cart from "./pages/Cart";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
           <Route path="/forgot" element={<ForgotPassword />} />
+          <Route path="/cart" element={<Cart />} />
           <Route path="/reset/:token" element={<ResetPassword />} />
 
 

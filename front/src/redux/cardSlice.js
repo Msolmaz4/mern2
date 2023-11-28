@@ -21,8 +21,8 @@ const initialState = {
 }
 
 
-export const generalSlice = createSlice({
-  name: 'genera]',
+export const cardSlice = createSlice({
+  name: 'card',
   initialState,
   reducers: {
     addtoCart: (state,action)=>{
@@ -42,8 +42,20 @@ export const generalSlice = createSlice({
             })
             state.carts =tempCard
             storeInLocalStorage(state.carts)
+        }else{
+            state.carts.push(action.payload)
+            storeInLocalStorage(state.carts)
         }
       
+    },
+    removeFromCart:(state,action)=>{
+        const tempCart = state.carts.filter(item=>item.id !== action.payload)
+        state.carts = tempCart
+        storeInLocalStorage(state.carts)
+    },
+    clearCart :(state,action)=>{
+      state.carts= []
+      storeInLocalStorage(state.carts)
     }
   },
   
@@ -51,6 +63,6 @@ export const generalSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const {getKeyword } = generalSlice.actions
+export const { clearCart,removeFromCart,addtoCart} = cardSlice.actions
 
-export default generalSlice.reducer
+export default cardSlice.reducer

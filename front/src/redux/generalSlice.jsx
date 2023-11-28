@@ -6,7 +6,7 @@ const initialState = {
 
 
 export const generalSlice = createSlice({
-  name: 'genera]',
+  name: 'general',
   initialState,
   reducers: {
     getKeyword : (state,action)=>{

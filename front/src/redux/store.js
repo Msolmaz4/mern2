@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit'
 import productSlice from './productSlice'
 import generalSlice from './generalSlice'
 import userSlice from './userSlice'
+import cardSlice from './cardSlice'
 
 export const store = configureStore({
   reducer: {
 
     products:productSlice,
     general :generalSlice,
-    user:userSlice
+    user:userSlice,
+    cart:cardSlice
   },
 })
