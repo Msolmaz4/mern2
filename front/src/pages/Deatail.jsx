@@ -11,6 +11,7 @@ const Deatail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { loading, product } = useSelector((state) => state.products);
+  
   const [quanty ,setQuanty] = useState(1)
 
   useEffect(() => {
@@ -20,6 +21,8 @@ const Deatail = () => {
   }, [dispatch, id]);
   console.log(loading, product, "detail");
 
+
+
   const settings = {
     dots: true,
     infinite: true,
@@ -27,15 +30,9 @@ const Deatail = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
   };
-const addBasket =()=>{
-  const data ={
-    
-  }
-  dispatch(addtoCart())
 
-}
 const decrem =()=>{
-    if(quanty > 0){
+    if(quanty > 1){
         setQuanty(quanty-1)
     }
 
@@ -44,6 +41,21 @@ const increm=()=>{
     if(quanty < product?.product?.stock){
             setQuanty(quanty+1)
     }
+
+}
+
+
+const addBasket = ()=>{
+  const data ={
+    id:product?.product._id,
+    name:product?.product?.name,
+    image:product?.product?.images?.[0],
+    price:product?.product?.price,
+    quanty :quanty
+    
+  }
+  console.log(data,'eklemek')
+ dispatch(addtoCart(data))
 
 }
   return (

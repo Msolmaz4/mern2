@@ -1,13 +1,24 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import { getProducts } from '../redux/productSlice'
 import ProductCard from '../components/ProductCard'
+import ReactPaginate from "react-paginate";
 
 const Home = () => {
+  const [itemOffset, setItemOffset] = useState(0);
 
   const dispatch = useDispatch()
   const {products,loading} = useSelector(state =>state.products)
 
+  const endOffset = itemOffset + 10;
+
+  const currentItems = products?.products?.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(products?.products?.length / 10);
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * 10) % products?.products.length;
+
+    setItemOffset(newOffset);
+  };
 
   useEffect(()=>{
 
@@ -36,6 +47,16 @@ console.log(products,loading,'urunler')
       </div> 
    
     }
+
+    <ReactPaginate   containerClassName="pagination-container"
+          breakLabel="..."
+          nextLabel="next >"
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={5}
+          pageCount={pageCount}
+          previousLabel="< previous"
+          renderOnZeroPageCount={null}
+        />
   </div>
   
  

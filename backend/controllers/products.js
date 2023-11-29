@@ -8,9 +8,9 @@ const allProducts = async(req,res)=>{
     console.log(req.body,'allpro')
     //burda search unutma yokss acaklismaz didgerleride 
     const resultPerPage = 10
-    //const productFilter = new ProductFilter(Product.find().req.query).search().filter().pagination(resultPerPage)
-    //const products = await productFilter.query
-const products = await Product.find()
+    const productFilter = new ProductFilter(Product.find(),req.query).search().filter().pagination(resultPerPage)
+    const products = await productFilter.query
+//const products = await Product.find()
     res.status(200).json({
         products
     })

@@ -12,15 +12,15 @@ export const getProducts = createAsyncThunk(
   async (params) => {
     
     // let link =`http://localhost:4000/products?keyword=${params.keyword || ''}&rating[gte]=${params.rating || 0}&price[gte]=${params.price.min || 0}&price[lte]=${params.price.max || 30000000}`
-    let link =`http://localhost:4000/products`
+    //let link =
 
     
-    if(params.category){
-      link =`http://localhost:4000/products?keyword=${params.keyword || ''}&rating[gte]=${params.rating || 0}&price[gte]=${params.price.min || 0}&price[lte]=${params.price.max || 30000000}&category=${params.category}`
-      const response = await fetch(link)
-      return  await response.json()
-    }
-    const response = await fetch(link)
+    // if(params.category){
+    //   link =`http://localhost:4000/products?keyword=${params.keyword || ''}&rating[gte]=${params.rating || 0}&price[gte]=${params.price.min || 0}&price[lte]=${params.price.max || 30000000}&category=${params.category}`
+    //   const response = await fetch(`)
+    //   return  await response.json()
+    //}
+    const response = await fetch(`http://localhost:4000/products`)
     console.log(response,'getAll')
 
     return await response.json()

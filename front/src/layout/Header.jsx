@@ -10,6 +10,7 @@ const Header = () => {
   const [openMenu ,setOpenMenu] = useState(false)
   const [keyword ,setKeyword] = useState('')
   const {user,isAuth} = useSelector(state=>state.user)
+  const { carts } = useSelector((state) => state.cart);
   const navigat = useNavigate()
   const distpach = useDispatch()
   const menuItems = [
@@ -49,7 +50,7 @@ const Header = () => {
  }
   return (
     <div className=" flex items-center justify-between h-16 px-2 bg-gray-300">
-      <div className="flex">demee.</div>
+      <div className="flex" onClick={()=>navigat('/')}>ECOM</div>
       <div className="flex items-center gap-5">
       <div className="flex items-center">
 
@@ -70,9 +71,9 @@ const Header = () => {
           </div>}
           
         </div>
-        <div className="relative">
+        <div  onClick={()=>navigat('/cart')} className="relative">
         <HiMiniArchiveBoxArrowDown size={28} />
-        <div className='absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center'>4</div>
+        <div className='absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center'>{carts?.length}</div>
             </div>
       </div>
     </div>

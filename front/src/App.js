@@ -15,10 +15,11 @@ import ProductRouter from "./components/ProductRouter";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Cart from "./pages/Cart";
+import Admin from "./pages/Admin";
 
 const App = () => {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.user);
+  // const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(profile());
@@ -43,6 +44,7 @@ const App = () => {
 
           <Route path="/product/:id" element={<Deatail />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
         <Footer />
       </Router>

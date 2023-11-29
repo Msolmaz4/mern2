@@ -86,7 +86,6 @@ const logout = async (req, res) => {
   });
 };
 
-
 const forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
@@ -96,74 +95,67 @@ const forgotPassword = async (req, res) => {
     if (!user) {
       return await res
         .status(404)
-        .json({ message: "leider haben wir nicht dieseEmail gefunden" });  
+        .json({ message: "leider haben wir nicht dieseEmail gefunden" });
     }
-    const token = await jwt.sign({id:user._id }, process.env.SECRET, { expiresIn: "1h"});
+    const token = await jwt.sign({ id: user._id }, process.env.SECRET, {
+      expiresIn: "1h",
+    });
     console.log(token, "token");
-
-
 
     // https://www.youtube.com/watch?v=QDIOBsMBEI0 burdan bakarak yaptim
 
     const transporter = nodemailer.createTransport({
-        service:'gmail',
-        host: "smtp.gmail.com",
-        port: 587,
-        secure: false,
-        auth: {
-          user: 'denemesolmaz24@gmail.com',
-          pass: 'hphhjjxgtmlnqrps'
-        }
-      });
-      
-     const mailOptions = {
-        from:{
-            name:'web Dizayun',
-            address:'denemesolmaz24@gmail.com'
-        },
-        to:email,
-        subject:'send email',
-        text:'Hello world',
-        html:`<h1> Şifrenizi sıfırlamak için aşağıdaki bağlantıyı kullanın: http://localhost:3000/reset/${token}</h1>`,
-        
-     }
+      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      auth: {
+        user: "denemesolmaz24@gmail.com",
+        pass: "hphhjjxgtmlnqrps",
+      },
+    });
 
-     const sendMail = async(transporter,mailOptions)=>{
-        try{
-            await transporter.sendMail(mailOptions)
-            console.log('mail gitti mi sence')
-        }
-        catch(error){
-               console.log(error)
-        }
-     }
-   sendMail(transporter,mailOptions)
-   res.status(400).json({message:'mail gitti '})
+    const mailOptions = {
+      from: {
+        name: "web Dizayun",
+        address: "denemesolmaz24@gmail.com",
+      },
+      to: email,
+      subject: "send email",
+      text: "Hello world",
+      html: `<h1> Şifrenizi sıfırlamak için aşağıdaki bağlantıyı kullanın: http://localhost:3000/reset/${token}</h1>`,
+    };
+
+    const sendMail = async (transporter, mailOptions) => {
+      try {
+        await transporter.sendMail(mailOptions);
+        console.log("mail gitti mi sence");
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    sendMail(transporter, mailOptions);
+    res.status(400).json({ message: "mail gitti " });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Bir hata oluştu." })
-    
+    res.status(500).json({ message: "Bir hata oluştu." });
   }
 };
 
-
-
 const resetPassword = async (req, res) => {
+  const { token, password } = req.body;
+  console.log(token, password);
+  //burfa bitr cozduk
+  const decodedToken = jwt.verify(token, process.env.SECRET);
+  console.log(decodedToken, "decodetoken");
+  const userId = decodedToken.id;
+  console.log(userId, "userId");
+  const user = await User.findById(userId);
+  console.log(user, "enalrt");
 
-   const { token ,password} = req.body
-   console.log(token,password)
-   //burfa bitr cozduk
-   const decodedToken = jwt.verify(token, process.env.SECRET);
-   console.log(decodedToken,'decodetoken')
-   const userId = decodedToken.id;
-   console.log(userId,'userId')
-   const user = await User.findById(userId);
-   console.log(user,'enalrt')
-  
-   user.password = password;
-   await user.save();
-   res.status(200).json({ message: 'Password reset successful' });
-
+  user.password = password;
+  await user.save();
+  res.status(200).json({ message: "Password reset successful" });
 };
 const userDetail = async (req, res, next) => {
   const user = await User.findById(req.user.id);
